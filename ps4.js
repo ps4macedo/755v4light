@@ -116,13 +116,81 @@ function setupRW() {
 	g_jsview_butterfly = new Int64(bf);
 	if(!read64(g_jsview_butterfly.sub(16)).equals(new Int64("0xffff000000001337")))
 		die("[!] Failed to setup addrof/fakeobj primitives");
-	debug_log("Webkit concluído. Excecutando a exploração do kernel (RISCO DE KP)");
+	debug_log("Webkit concluído. Excecutando a exploração do kernel (RISCO DE KP)...");
 
 	/* Getting code execution */
 	/* ... */
 	if(window.postExploit)
 		window.postExploit();
 
+}
+
+function toggle_payload(pld){
+	if(pld == "binloader"){
+		document.getElementById("progress").innerHTML="Aguardando a CARGA ÚTIL... Envie pela porta 9020.";
+		preloadScripts(['preloader.js', 'loader.js']);
+	}else if(pld == "mira"){
+		document.getElementById("progress").innerHTML="Carregando Mira.. Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'mira.js', 'loader.js']);
+	}else if(pld == "mira2"){
+		document.getElementById("progress").innerHTML="Carregando Mira+... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'mira2.js', 'loader.js']);
+	}else if(pld == "hen213b"){
+		document.getElementById("progress").innerHTML="Carregando Hen v2.1.3b... Por favor, AGUARDE!!!";
+		preloadScripts(['preloaderx.js', 'hen213b.js', 'loader.js']);
+	}else if(pld == "goldhen"){
+		document.getElementById("progress").innerHTML="Carregando GoldHen v1.0... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'goldhen.js', 'loader.js']);
+	}else if(pld == "goldhen2"){
+		document.getElementById("progress").innerHTML="Carregando GoldHen v1.1... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'goldhen2.js', 'loader.js']);
+	}else if(pld == "toolbox"){
+		document.getElementById("progress").innerHTML="Carregando ToolBox... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'toolbox.js', 'loader.js']);
+	}else if(pld == "dumper"){
+		document.getElementById("progress").innerHTML="Carregando dumper... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'dumper.js', 'loader.js']);
+	}else if(pld == "backup"){
+		document.getElementById("progress").innerHTML="Carregando Backup... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'backup.js', 'loader.js']);
+	}else if(pld == "restore"){
+		document.getElementById("progress").innerHTML="Carregando Restore... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'restore.js', 'loader.js']);
+	}else if(pld == "app2usb"){
+		document.getElementById("progress").innerHTML="Carregando o app2USB... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'app2usb.js', 'loader.js']);
+	}else if(pld == "webrte"){
+		document.getElementById("progress").innerHTML="Carregando o WebRTE... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'webrte.js', 'loader.js']);
+	}else if(pld == "ps4debug"){
+		document.getElementById("progress").innerHTML="Carregando o PS4Debug... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'ps4debug.js', 'loader.js']);
+	}else if(pld == "todex"){
+		document.getElementById("progress").innerHTML="Carregando o ToDex... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'todex.js', 'loader.js']);
+	}else if(pld == "fancontrol"){
+		document.getElementById("progress").innerHTML="Enviando temperatura alvo... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'fancontrol.js', 'loader.js']);
+	}else if(pld == "payload"){
+		document.getElementById("progress").innerHTML="Abrindo página de ativação(ões)... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'payload.js', 'loader.js', 'frontend.js']);
+	}else if(pld == "guia"){
+		document.getElementById("progress").innerHTML="Carregando o host para o guia do usuário... Por favor, AGUARDE!!!";
+		preloadScripts(['preloader.js', 'guia.js', 'loader.js']);
+	}
+	if(window.postPayload)
+		window.postPayload();
+	payload_finished(pld);
+	
+}
+
+function payload_finished(payload)
+{
+	if(payload == "binloader"){
+		setTimeout(function(){document.getElementById("progress").innerHTML="Aguardando a carga útil! Enviar pela porta 9021"; }, 7000);
+	} else if(payload != "exploit" && payload != "exploit_old"){
+		setTimeout(function(){document.getElementById("progress").innerHTML="Carga útil injetada com sucesso!"; }, 7000);
+	}
 }
 
 function read(addr, length) {
@@ -192,7 +260,7 @@ function confuseTargetObjRound2() {
 
 /* Executed after deleteBubbleTree */
 function leakJSC() {
-	debug_log("[+] Looking for the smashed StringImpl");
+	debug_log("[+] Looking for the smashed StringImpl...");
 
 	var arr_str = Object.getOwnPropertyNames(g_obj_str);
 
@@ -414,7 +482,7 @@ function prepareUAF() {
 
 /* HTMLElement spray */
 function sprayHTMLTextArea() {
-	debug_log("[+] Spraying HTMLTextareaElement");
+	debug_log("[+] Spraying HTMLTextareaElement ...");
 
 	let textarea_div_elem = g_textarea_div_elem = document.createElement("div");
 	document.body.appendChild(textarea_div_elem);
